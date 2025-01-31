@@ -23,17 +23,16 @@ To get started with the text editor, follow these steps:
 
 ```
 
-git clone https://github.com/yourusername/text-editor.git
-cd text-editor
+git clone https://github.com/aaqwesas/TextEditor.git
+cd TextEditor
 
 ```
 
 2. **Compile the program**:
-   Use GCC to compile the source code:
+   use makefile to compile the program
 
 ```
-
-run the make file with make command
+make
 
 ```
 
