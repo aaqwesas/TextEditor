@@ -2,7 +2,8 @@
 #define KILO_H_
 
 #define CTRL_KEY(k) ((k) & 0x1f)
-#define KILO_VERSION "0.0.1"
+#define KILO_VERSION "0.0.2"
+#define KILO_QUIT_TIMES 2
 #define KILO_TAB_STOP 8
 #define ABUF_INIT {NULL, 0}
 #define _DEFAULT_SOURCE
@@ -49,6 +50,7 @@ struct editorConfig {
   int screenrows;
   int screencols;
   int numrows;
+  int dirty;
   erow *row;
   char *filename;
   char statusmsg[80];
@@ -97,7 +99,7 @@ void editorProcessKeyPress();
 void editorDrawRows(struct abuf *ab);
 void initEditor();
 void editorOpen();
-void editorAppendRow(char *s, size_t len);
+void editorInsertRow(int at, char *s, size_t len);
 void editorUpdateRow(erow *row);
 int editorRowCxToRx(erow *row, int cx);
 void editorDrawStatusBar(struct abuf *ab);
@@ -108,6 +110,13 @@ void editorInsertChar(int c);
 void editorScroll();
 char *editorRowsToString(int *buflen);
 void editorSave();
+void editorRowDelChar(erow *row, int at);
+void editorDelChar();
+void editorFreeRow(erow *row);
+void editorDelRow(int at);
+void editorRowAppendString(erow *row, char *s, size_t len);
+void editorInsertNewline();
+char *editorPrompt(char *prompt);
 
 
 #endif /* KILO_H_ */
