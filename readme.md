@@ -44,6 +44,12 @@ make
 ./kilo
 ```
 
+or
+
+```
+./kilo filename
+```
+
 ## Usage
 
 1. **Create New File**: Start the program without any arguments to create a new file.
