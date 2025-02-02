@@ -1,14 +1,14 @@
 #ifndef KILO_H_
 #define KILO_H_
 
-#define CTRL_KEY(k) ((k) & 0x1f)
+#define CTRL_KEY(k) ((k) & 0x1f) // convert to ASCII code for control keys
 #define KILO_VERSION "0.0.2"
-#define KILO_QUIT_TIMES 2
-#define KILO_TAB_STOP 8
-#define ABUF_INIT {NULL, 0}
-#define _DEFAULT_SOURCE
-#define _BSD_SOURCE
-#define _GNU_SOURCE
+#define KILO_QUIT_TIMES 2 // number of times to allow unsaved changes before quitting
+#define KILO_TAB_STOP 8 // number of spaces per tab stop
+#define ABUF_INIT {NULL, 0} // initialize an empty buffer
+#define _DEFAULT_SOURCE // needed for getline
+#define _BSD_SOURCE // needed for strdup
+#define _GNU_SOURCE // needed for strdup
 
 #include <termios.h>
 #include <unistd.h>
@@ -85,6 +85,9 @@ enum editorKeyP{
 };
 
 struct editorConfig E;
+
+
+// Function prototypes
 void editorRefreshScreen();
 void die(const char *s);
 int getCursorPosition(int *rows, int *cols);
@@ -116,7 +119,11 @@ void editorFreeRow(erow *row);
 void editorDelRow(int at);
 void editorRowAppendString(erow *row, char *s, size_t len);
 void editorInsertNewline();
-char *editorPrompt(char *prompt);
+char *editorPrompt(char *prompt, void (*callback)(char *, int));
+void editorFind();
+void editorFindCallback(char *query, int key);
+int editorRowRxToCx(erow *row, int rx);
+
 
 
 #endif /* KILO_H_ */
