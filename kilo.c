@@ -380,7 +380,6 @@ void editorInsertNewline() {
   E.cx = 0;
 }
 
-
 /*** output ***/
 //https://vt100.net/docs/vt100-ug/chapter3.html#CUP
 
@@ -804,8 +803,6 @@ void initEditor() { // & refer to pass by reference, this way the data actually 
   E.statusmsg_time = 0;
   if (getWindowSize(&E.screenrows, &E.screencols) == -1) die("getWindowSize");
   E.screenrows -= 2;
-
-
 }
 // Function to append a new row to the editor's content
 // Parameters:
@@ -891,20 +888,24 @@ void editorDelChar() {
 }
 
 int main(int argc , char *argv[]) {
-    enableRawMode();
-    initEditor();
-    if (argc >= 2) {
-      editorOpen(argv[1]); 
+  // Clear the entire screen and scrollback buffer
+  write(STDOUT_FILENO, "\x1b[2J", 4); // Clear the entire screen
+  write(STDOUT_FILENO, "\x1b[3J", 4); // Clear the scrollback buffer
+  write(STDOUT_FILENO, "\x1b[H", 3); // Move the cursor to the top-left corner
+  enableRawMode();
+  initEditor();
+  if (argc >= 2) {
+    editorOpen(argv[1]); 
+  }
+  // asking read() to read 1 char byte for the standard input and put it into the variable c
+  
+  editorSetStatusMessage(
+  "HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find");
+  
+  while(1){
+    editorRefreshScreen();
+    editorProcessKeyPress();
     }
-    // asking read() to read 1 char byte for the standard input and put it into the variable c
-    
-    editorSetStatusMessage(
-    "HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find");
-    
-    while(1){
-      editorRefreshScreen();
-      editorProcessKeyPress();
-      }
-    // run echo $? to get the return value
-    return 0;
+  // run echo $? to get the return value
+  return 0;
 }
